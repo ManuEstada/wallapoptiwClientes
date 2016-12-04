@@ -39,5 +39,29 @@ public class ClienteController {
 		}
 		return clienteRespuesta;
 	}
-	
+
+	@RequestMapping(value = "/findByCorreo", method = RequestMethod.POST)
+	public Cliente validate(@RequestBody String correo) {
+		Cliente clienteRespuesta = null;
+		List<Cliente> clientesRespuesta = repository.findByCorreo(correo);
+		if(clientesRespuesta != null && clientesRespuesta.size() > 0) {
+			clienteRespuesta = clientesRespuesta.get(0);
+		}
+		return clienteRespuesta;
+	}
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	public boolean add(@RequestBody Cliente cliente) {
+		boolean res = false;
+		List<Cliente> clientesExistentes = repository.findByCorreo(cliente.getCorreo());
+		if(clientesExistentes == null || clientesExistentes.size() == 0) {
+			repository.saveAndFlush(cliente);
+			res = true;
+		}
+		return res;
+	}
+	@RequestMapping(value = "/modify", method = RequestMethod.POST)
+	public boolean Modify(@RequestBody Cliente cliente) {
+		repository.saveAndFlush(cliente);
+		return true;
+	}
 }
