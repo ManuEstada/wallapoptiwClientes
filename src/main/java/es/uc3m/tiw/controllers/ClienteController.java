@@ -40,8 +40,13 @@ public class ClienteController {
 		return clienteRespuesta;
 	}
 
+	@RequestMapping(value = "/getAll", method = RequestMethod.POST)
+	public List<Cliente> getAll() {
+		return repository.findAll();
+	}
+	
 	@RequestMapping(value = "/findByCorreo", method = RequestMethod.POST)
-	public Cliente validate(@RequestBody String correo) {
+	public Cliente findByCorreo(@RequestBody String correo) {
 		Cliente clienteRespuesta = null;
 		List<Cliente> clientesRespuesta = repository.findByCorreo(correo);
 		if(clientesRespuesta != null && clientesRespuesta.size() > 0) {
@@ -49,6 +54,12 @@ public class ClienteController {
 		}
 		return clienteRespuesta;
 	}
+
+	@RequestMapping(value = "/findByID", method = RequestMethod.POST)
+	public Cliente findByID(@RequestBody long id) {
+		return repository.findOne(id);
+	}
+	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public boolean add(@RequestBody Cliente cliente) {
 		boolean res = false;
@@ -59,9 +70,17 @@ public class ClienteController {
 		}
 		return res;
 	}
+	
 	@RequestMapping(value = "/modify", method = RequestMethod.POST)
 	public boolean Modify(@RequestBody Cliente cliente) {
 		repository.saveAndFlush(cliente);
 		return true;
 	}
+
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	public boolean delete(@RequestBody long id) {
+		repository.delete(id);
+		return true;
+	}
+	
 }
