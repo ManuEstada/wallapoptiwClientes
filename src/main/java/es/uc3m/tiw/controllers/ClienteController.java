@@ -3,16 +3,16 @@ package es.uc3m.tiw.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.uc3m.tiw.daos.ClienteRepository;
 import es.uc3m.tiw.dominios.Cliente;
 
-
+@CrossOrigin
 @RestController
 public class ClienteController {
 
@@ -78,8 +78,8 @@ public class ClienteController {
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public boolean delete(@RequestBody long id) {
-		repository.delete(id);
+	public boolean delete(@RequestBody Cliente cliente) {
+		repository.delete(cliente);
 		return true;
 	}
 	
